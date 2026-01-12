@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs
+*.log
+*.out.log
+*.err.log
+
+# Status files
+.awi.status
+.awi-whitelist
+
+# Temporary files
+*.tmp
+*.bak
+com.awi.plist.tmp
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
