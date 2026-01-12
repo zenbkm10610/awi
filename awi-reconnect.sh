@@ -33,6 +33,11 @@ if [ -z "$CURRENT_WIFI" ] || [ "$CURRENT_WIFI" = "none" ]; then
     CURRENT_WIFI=""
 fi
 
+# WiFi名の検証（改行文字や制御文字を除去）
+if [ -n "$CURRENT_WIFI" ]; then
+    CURRENT_WIFI=$(echo "$CURRENT_WIFI" | tr -d '\n\r\t' | sed 's/[[:cntrl:]]//g')
+fi
+
 # WiFiが接続されていない場合は終了
 if [ -z "$CURRENT_WIFI" ]; then
     log "WiFiが接続されていません。スキップします。"
@@ -60,8 +65,8 @@ if [ ! -f "$WHITELIST_FILE" ] || [ ! -s "$WHITELIST_FILE" ]; then
     exit 0
 fi
 
-# ホワイトリストに登録されているか確認
-if ! grep -q "^${CURRENT_WIFI}$" "$WHITELIST_FILE" 2>/dev/null; then
+# ホワイトリストに登録されているか確認（固定文字列として扱う）
+if ! grep -Fxq "$CURRENT_WIFI" "$WHITELIST_FILE" 2>/dev/null; then
     log "ホワイトリストに登録されていません（$CURRENT_WIFI）。スキップします。"
     update_status "skipped" "$CURRENT_WIFI"
     if [ -t 1 ]; then

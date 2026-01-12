@@ -17,6 +17,9 @@ if [ -z "$CURRENT_WIFI" ] || [ "$CURRENT_WIFI" = "none" ]; then
     exit 1
 fi
 
+# WiFi名の検証（改行文字や制御文字を除去）
+CURRENT_WIFI=$(echo "$CURRENT_WIFI" | tr -d '\n\r\t' | sed 's/[[:cntrl:]]//g')
+
 echo "========================================="
 echo "WiFi自動再接続対象に追加"
 echo "========================================="
@@ -27,12 +30,13 @@ echo ""
 # ホワイトリストファイルが存在しない場合は作成
 if [ ! -f "$WHITELIST_FILE" ]; then
     touch "$WHITELIST_FILE"
+    chmod 600 "$WHITELIST_FILE"  # 所有者のみ読み書き可能
     echo "# WiFi自動再接続対象リスト" >> "$WHITELIST_FILE"
     echo "# 1行に1つのWiFi名を記述" >> "$WHITELIST_FILE"
 fi
 
-# 既に追加されているかチェック
-if grep -q "^${CURRENT_WIFI}$" "$WHITELIST_FILE"; then
+# 既に追加されているかチェック（固定文字列として扱う）
+if grep -Fxq "$CURRENT_WIFI" "$WHITELIST_FILE" 2>/dev/null; then
     echo "⚠️  このWiFiは既に追加されています: $CURRENT_WIFI"
     exit 0
 fi

@@ -15,19 +15,28 @@ fi
 
 WIFI_NAME="$1"
 
+# WiFi名の検証（改行文字や制御文字を除去）
+WIFI_NAME=$(echo "$WIFI_NAME" | tr -d '\n\r\t' | sed 's/[[:cntrl:]]//g')
+
+# 空文字列のチェック
+if [ -z "$WIFI_NAME" ]; then
+    echo "❌ 無効なWiFi名です。"
+    exit 1
+fi
+
 if [ ! -f "$WHITELIST_FILE" ]; then
     echo "❌ ホワイトリストファイルが見つかりません。"
     exit 1
 fi
 
-# WiFi名が存在するかチェック
-if ! grep -q "^${WIFI_NAME}$" "$WHITELIST_FILE"; then
+# WiFi名が存在するかチェック（固定文字列として扱う）
+if ! grep -Fxq "$WIFI_NAME" "$WHITELIST_FILE" 2>/dev/null; then
     echo "⚠️  このWiFiはリストに存在しません: $WIFI_NAME"
     exit 1
 fi
 
 # WiFi名を削除（コメント行は保持）
-grep -v "^${WIFI_NAME}$" "$WHITELIST_FILE" > "${WHITELIST_FILE}.tmp"
+grep -Fxv "$WIFI_NAME" "$WHITELIST_FILE" > "${WHITELIST_FILE}.tmp" 2>/dev/null || true
 mv "${WHITELIST_FILE}.tmp" "$WHITELIST_FILE"
 
 echo "✅ 削除しました: $WIFI_NAME"

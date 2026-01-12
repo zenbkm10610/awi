@@ -32,8 +32,10 @@ WIFI_INTERFACE=$(networksetup -listallhardwareports | awk '/Wi-Fi|AirPort/{getli
 CURRENT_WIFI=$(networksetup -getairportnetwork "$WIFI_INTERFACE" 2>/dev/null | sed 's/Current Wi-Fi Network: //')
 
 if [ -n "$CURRENT_WIFI" ] && [ "$CURRENT_WIFI" != "none" ]; then
+    # WiFi名の検証（改行文字や制御文字を除去）
+    CURRENT_WIFI=$(echo "$CURRENT_WIFI" | tr -d '\n\r\t' | sed 's/[[:cntrl:]]//g')
     echo "現在接続中のWiFi: $CURRENT_WIFI"
-    if grep -q "^${CURRENT_WIFI}$" "$WHITELIST_FILE"; then
+    if grep -Fxq "$CURRENT_WIFI" "$WHITELIST_FILE" 2>/dev/null; then
         echo "  ✅ 自動再接続対象です"
     else
         echo "  ⚠️  自動再接続対象ではありません"
