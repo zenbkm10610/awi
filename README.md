@@ -1,6 +1,6 @@
 # Automatic WiFi Connecting Tool (awi)
 
-WiFi で 45 分ごとに再接続が必要な場合に、自動的に WiFi を再接続するツールです。
+定期的に WiFi の再接続が必要な場合に、自動的に再接続するツールです。
 
 ## 機能
 
