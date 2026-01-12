@@ -8,7 +8,7 @@
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>/Users/Kenta/work/wifi-reconnect/awi-reconnect.sh</string>
+        <string>REPLACE_WITH_SCRIPT_DIR/awi-reconnect.sh</string>
     </array>
     
     <key>StartInterval</key>
@@ -18,9 +18,9 @@
     <true/>
     
     <key>StandardOutPath</key>
-    <string>/Users/Kenta/.awi.out.log</string>
+    <string>REPLACE_WITH_HOME/.awi.out.log</string>
     
     <key>StandardErrorPath</key>
-    <string>/Users/Kenta/.awi.err.log</string>
+    <string>REPLACE_WITH_HOME/.awi.err.log</string>
 </dict>
 </plist>

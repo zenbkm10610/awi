@@ -112,7 +112,7 @@ if [ -f "$STATUS_FILE" ]; then
             echo -e "   状態: ${YELLOW}WiFi未接続（スキップ）${NC}"
             ;;
         "skipped")
-            echo -e "   状態: ${BLUE}スタバ以外のWiFi（スキップ）${NC}"
+            echo -e "   状態: ${BLUE}ホワイトリスト外のWiFi（スキップ）${NC}"
             if [ -n "$wifi_name" ]; then
                 echo -e "   ネットワーク: ${BLUE}$wifi_name${NC}"
             fi

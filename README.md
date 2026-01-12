@@ -17,7 +17,7 @@ GitHub からクローンするか、ZIP ファイルをダウンロードして
 
 ```bash
 # GitHubからクローンする場合
-git clone https://github.com/YOUR_USERNAME/awi.git
+git clone git@github.com:zenbkm10610/awi.git
 cd awi
 ```
 
@@ -28,8 +28,6 @@ cd awi
 ```
 
 これで、macOS の launchd サービスとして登録され、自動的に実行されるようになります。
-
-詳細なインストール方法は [INSTALL.md](INSTALL.md) を参照してください。
 
 ## 使い方
 
@@ -152,7 +150,7 @@ launchctl unload ~/Library/LaunchAgents/com.awi.plist
 launchctl load ~/Library/LaunchAgents/com.awi.plist
 ```
 
-### 特定の WiFi ネットワークでのみ動作させる場合
+### 特定の WiFi ネットワークで動作させる場合
 
 `awi add`コマンドで、現在接続中の WiFi をホワイトリストに追加できます：
 
@@ -201,8 +199,6 @@ awi log -f
 awi status
 
 # サービスが実行中か確認
-awi status
-# または
 launchctl list | grep com.awi
 ```
 
@@ -219,8 +215,6 @@ awi/
 ├── com.awi.plist               # launchd設定ファイル（テンプレート）
 ├── setup-awi.sh                # セットアップスクリプト
 ├── README.md                   # このファイル
-├── INSTALL.md                  # インストール方法
-├── DISTRIBUTION.md             # 配布方法ガイド
 ├── QUICK_START.md              # クイックスタートガイド
 └── FAQ.md                      # よくある質問
 

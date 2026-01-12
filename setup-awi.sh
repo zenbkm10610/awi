@@ -55,8 +55,8 @@ if [ -f "$OLD_WHITELIST" ] && [ ! -f "$NEW_WHITELIST" ]; then
 fi
 
 # plistファイルを動的に生成（パスを置換）
-sed "s|/Users/Kenta/work/wifi-reconnect|$SCRIPT_DIR|g" "$PLIST_TEMPLATE" | \
-    sed "s|/Users/Kenta|$HOME|g" > "$PLIST_FILE"
+sed "s|REPLACE_WITH_SCRIPT_DIR|$SCRIPT_DIR|g" "$PLIST_TEMPLATE" | \
+    sed "s|REPLACE_WITH_HOME|$HOME|g" > "$PLIST_FILE"
 cp "$PLIST_FILE" "$LAUNCHD_FILE"
 rm -f "$PLIST_FILE"
 echo "✅ plistファイルを生成・コピーしました"
@@ -89,7 +89,7 @@ alias awi='$SCRIPT_DIR/awi.sh'
 
 if [ -f "$SHELL_CONFIG" ]; then
     # 既にエイリアスが追加されているかチェック
-    if grep -q "awi" "$SHELL_CONFIG" 2>/dev/null && grep -q "wifi-reconnect\|awi-reconnect" "$SHELL_CONFIG" 2>/dev/null; then
+    if grep -q "alias awi=" "$SHELL_CONFIG" 2>/dev/null; then
         echo "⚠️  エイリアスは既に設定されています: $SHELL_CONFIG"
     else
         # 古いwifi-*エイリアスを削除（存在する場合）
@@ -127,6 +127,11 @@ echo "   awi reconnect    # 手動再接続"
 echo "   awi add          # 現在のWiFiを追加"
 echo "   awi list         # 対象WiFi一覧"
 echo "   awi remove <名>  # WiFiを削除"
+echo "   awi log [-f]     # ログを表示（-fでリアルタイム）"
+echo "   awi start        # サービスを開始"
+echo "   awi stop         # サービスを停止"
+echo "   awi restart      # サービスを再起動"
+echo "   awi uninstall    # サービスをアンインストール"
 echo "   awi help         # ヘルプを表示"
 echo ""
 echo "   注意: 新しいターミナルセッションを開くか、"
